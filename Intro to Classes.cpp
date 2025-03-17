@@ -54,7 +54,7 @@ public:
         else {
             month = 1;
             day = 1;
-            year = 1000;
+            year = 1900;
             cout << "invalid entry defaulting to date 1/1/1900" << endl;
         }
     
