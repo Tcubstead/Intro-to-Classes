@@ -9,17 +9,21 @@
 #include <string>
 using namespace std;
 
+//defines the date class type
 class Date {
 private:
         int month, day, year;
         vector<string> months;
 
+        //makes sure the user input of the month and day is valid and is less than the maximum number of days for the given month
         bool validateDate(int m, int d, int y) {
             if (m < 1 || m > 12) return false; //month
             if (d < 1 || d > getNumDays(m, y)) return false; //day
 
             return true;
         }
+
+        //sets the max number of days for each month and sets second value for feburary for leap years
         int getNumDays(int m, int y){
             vector<int> numDays = {31, 28, 31, 30, 31, 30, 31 , 31, 30, 31 , 30, 31};
 
@@ -29,6 +33,7 @@ private:
             return numDays[m - 1];
         }
 
+        //determines if it is a leap year and if so allows for feurary to have up to 29 days
         bool isLeapYear(int y) {
             if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) {
                 return true;
@@ -40,6 +45,7 @@ public:
     Date(int m, int d, int y) {
         months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
+        //sets a default response if user inputs an invalid date
         if (validateDate(m, d, y)) {
             month = m;
             day = d;
@@ -53,15 +59,17 @@ public:
         }
     
     }
-
+    //uses user input to display date as m/d/yyyy
     void displayDate() {
-        cout << month << " /" << day << " /" << year << endl;
+        cout << month << "/" << day << "/" << year << endl;
     }
 
+    //uses user input to display date as m d, yyyy
     void displayDate2() {
         cout << months[month - 1] << " " << day << ", " << year << endl;
     }
 
+    //uses user input to display date as d m yyyy
     void displayDate3() {
         cout << day << " " << months[month - 1] << " " << year << endl;
     }
@@ -71,6 +79,7 @@ public:
 int main() {
     int month, day, year;
 
+    //gets user input
     cout << "enter desired month(1...12)" << endl;
     cin >> month;
     cout << "enter day(28...31" << endl;
@@ -81,6 +90,7 @@ int main() {
 
     Date inputtedDate(month, day, year);
 
+    //display info
     inputtedDate.displayDate();
     cout << endl;
     inputtedDate.displayDate2();
