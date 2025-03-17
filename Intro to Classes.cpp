@@ -1,5 +1,7 @@
-// Intro to Classes.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+//Thomas Cubsyead
+//3/17/25
+//Intro to Classes
+//main
 
 #include <iostream>
 
