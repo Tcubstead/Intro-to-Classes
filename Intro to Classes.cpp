@@ -42,23 +42,38 @@ private:
         }
 
 public:
-    Date(int m, int d, int y) {
+    Date(int m = 1, int d = 1, int y = 1900) {
         months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
 
-        //sets a default response if user inputs an invalid date
-        if (validateDate(m, d, y)) {
-            month = m;
-            day = d;
-            year = y;
-        }
-        else {
-            month = 1;
-            day = 1;
-            year = 1900;
-            cout << "invalid entry defaulting to date 1/1/1900" << endl;
-        }
-    
+        setDate(m, d, y);
     }
+        //sets a default response if user inputs an invalid date
+        void setDate(int m, int d, int y) {
+            if (validateDate(m, d, y)) {
+                month = m;
+                day = d;
+                year = y;
+            }
+            else {
+                month = 1;
+                day = 1;
+                year = 1900;
+                cout << "invalid entry defaulting to date 1/1/1900" << endl;
+            }
+        }
+        //accessor functions
+        int getMonth() { return month; }
+        int getDay() { return day; }
+        int getYear() { return year; }
+   
+        int lastDay() {
+            return lastDay(month, year);
+        }
+
+        // Overloaded function to get the last day of the month for any month and year
+        int lastDay(int m, int y) {
+            return lastDay(m, y);
+        }
     //uses user input to display date as m/d/yyyy
     void displayDate() {
         cout << month << "/" << day << "/" << year << endl;
