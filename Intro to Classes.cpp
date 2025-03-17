@@ -65,12 +65,17 @@ public:
         int getMonth() { return month; }
         int getDay() { return day; }
         int getYear() { return year; }
+
+        // Overloaded function to check if the year is a leap year
+        bool isLeapYear() {
+            return isLeapYear(year);
+        }
    
+        // Overloaded function to get the last day of the month for any month and year
         int lastDay() {
             return lastDay(month, year);
         }
 
-        // Overloaded function to get the last day of the month for any month and year
         int lastDay(int m, int y) {
             return lastDay(m, y);
         }
