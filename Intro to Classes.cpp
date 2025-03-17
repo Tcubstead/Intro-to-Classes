@@ -2,112 +2,151 @@
 //3/17/25
 //Intro to Classes
 //Number_Array_Class
-//
+//creates an array with 10 values and tests its bounds in a program using rnadom numbers and 0's
 
 #include <iostream>
+#include <iomanip>
+#include <cstdlib>
+#include <ctime>
 #include <limits>
+
 using namespace std;
 
-//defines class for an array of numbers with variable size and input based on user input
 class NumberArray {
 private:
-    float* arr;
-    int size;
+    double* arr;       // Pointer to the dynamically allocated array
+    int size;          // Size of the array
+    static const int MAX_SIZE = 10;  // Default size
+    static const int DEFAULT_VALUE = 10000.0;  // Default value for out of bounds retrieval
 
 public:
-    NumberArray(int n) {
-        size = n;
-        arr = new float[size];
+    // Constructor that initializes the array with zeros
+    NumberArray(int size = MAX_SIZE) {
+        this->size = size;
+        arr = new double[size];
+
+        for (int i = 0; i < size; ++i) {
+            arr[i] = 0.0;
+        }
+        cout << "Array of size " << size << " created." << endl;
     }
 
-    //destructor to deallocate memory
+    // Destructor that frees the allocated memory
     ~NumberArray() {
         delete[] arr;
+        cout << "The destructor is running." << endl;
     }
 
-    //stores the user inputed numbers into the array and sends error code if it is out of bounds
-    void storeNumber(int index, float value) {
+    // Store a number in the array at a specified index
+    void setNumber(int index, double value) {
         if (index >= 0 && index < size) {
             arr[index] = value;
-        } else {
-            cout << "out of bounds" << endl;
+        }
+        else {
+            cout << "The index is out of the bounds of the array, number not stored" << endl;
         }
     }
 
-    //gets the numbers from the array to display one at a time and sends error code if it is out of bounds
-    float retrieveNumber(int index) {
+    // Retrieve a number from the array at a specified index
+    double getNumber(int index) {
         if (index >= 0 && index < size) {
             return arr[index];
-        } else {
-            cout << "out of bounds" << endl;
-            return -1;
+        }
+        else {
+            cout << "The index is out of the bounds of the array, returning default" << endl;
+            return DEFAULT_VALUE;
         }
     }
 
-    //function to determine the highest value in the array by comparing eac value to one another
-    float highestValue() {
-        float highest = arr[0];
-            for (int i = 0; i < size; ++i) {
-                if (arr[i] > highest) {
-                    highest = arr[i];
-                }
-        }
-        return highest;
-    }
-
-    //function to determine the lowest value in the array by comparing each value to one another
-    float lowestValue() {
-        float lowest = arr[0];
-        for (int i = 0; i < size; ++i) {
-            if (arr[i] < lowest) {
-                lowest = arr[i];
+    // Find and return the minimum value in the array
+    double getMinValue() {
+        double min = arr[0];
+        for (int i = 1; i < size; ++i) {
+            if (arr[i] < min) {
+                min = arr[i];
             }
         }
-        return lowest;
+        return min;
     }
 
-    //function that gets the average of the array by adding each inputted number then dividing by the size of the array
-    float average() {
-        float sum = 0;
+    // Find and return the maximum value in the array
+    double getMaxValue() {
+        double max = arr[0];
+        for (int i = 1; i < size; ++i) {
+            if (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+        return max;
+    }
+
+    // Calculate and return the average of the values in the array
+    double getAverage() {
+        double sum = 0;
         for (int i = 0; i < size; ++i) {
             sum += arr[i];
         }
         return sum / size;
     }
+
+    // Print the array
+    void printArray() {
+        for (int i = 0; i < size; ++i) {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
+
+    // Get the size of the array (for testing)
+    int getSize() const {
+        return size;
+    }
 };
 
 int main() {
-    int n;
+    // Test the default constructor
+    cout << "----- Test constructors -----" << endl;
+    NumberArray arr1;  // Default size is 10
+    cout << "From default constructor: ";
+    arr1.printArray();
 
-    //user inputs size of the array
-    cout << "enter the size of the array" << endl;
-    cin >> n;
+    // Test the constructor with a custom size
+    int custom_size = 15;
+    NumberArray arr2(custom_size);  // Custom size 15
+    cout << "From constructor with parameters: ";
+    arr2.printArray();
 
-    NumberArray numArray(n);
+    // Test mutator: Fill array with random numbers
+    cout << "\n----- Test mutator -----" << endl;
+    srand(time(0)); // Initialize random seed
+    cout << "Array filled with numbers:" << endl;
 
-    //user inputs all of the numbers held in  the array
-    for (int i = 0; i < n; ++i) {
-        float value;
-        cout << "enter the value of number " << i + 1 << ": " << endl;
-        cin >> value;
-        numArray.storeNumber(i, value);
+    // Fill the array with random floating point numbers between 1.0 and 100.0
+    for (int i = 0; i < arr2.getSize(); ++i) {
+        double num = 1.0 + (rand() % 10000) / 100.0;  // Random number between 1.0 and 100.0
+        arr2.setNumber(i, num);
     }
+    arr2.printArray();
 
-    //displays the array
-    cout << "\nHere is your inputted array: " << endl;
-    for (int i = 0; i < n; ++i) {
-        cout << "element " << i + 1 << ": " << numArray.retrieveNumber(i) << endl;
-    }
+    // Test out of bounds access for mutator
+    cout << "\nTrying to set a number with an out of bounds index (20):" << endl;
+    arr2.setNumber(20, 42.0);
 
-    //displays the highest and lowest values and the average with functions defined in the class
-    cout << "\nThe highest value in the array is: " << numArray.highestValue() << endl;
+    // Test accessors
+    cout << "\n----- Test accessors -----" << endl;
+    cout << "Access item at index 5: " << fixed << setprecision(1) << arr2.getNumber(5) << endl;
+    cout << "Access item at index 20 (out of bounds): " << fixed << setprecision(1) << arr2.getNumber(20) << endl;
 
-    cout << "The lowest value in the array is: " << numArray.lowestValue() << endl;
+    // Test getting minimum, maximum, and average values
+    cout << "\nThe minimum value in the array is: " << fixed << setprecision(1) << arr2.getMinValue() << endl;
+    cout << "The maximum value in the array is: " << fixed << setprecision(1) << arr2.getMaxValue() << endl;
+    cout << "The average of the values in the array is: " << fixed << setprecision(1) << arr2.getAverage() << endl;
 
-    cout << "The average of the total values in the array is: " << numArray.average() << endl;
-
+    // Destructor will be called here when the program exits
     return 0;
 }
+
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
