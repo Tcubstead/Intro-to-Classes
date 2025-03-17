@@ -8,6 +8,7 @@
 #include <limits>
 using namespace std;
 
+//defines class for an array of numbers with variable size and input based on user input
 class NumberArray {
 private:
     float* arr;
@@ -19,10 +20,12 @@ public:
         arr = new float[size];
     }
 
+    //destructor to deallocate memory
     ~NumberArray() {
         delete[] arr;
     }
 
+    //stores the user inputed numbers into the array and sends error code if it is out of bounds
     void storeNumber(int index, float value) {
         if (index >= 0 && index < size) {
             arr[index] = value;
@@ -31,6 +34,7 @@ public:
         }
     }
 
+    //gets the numbers from the array to display one at a time and sends error code if it is out of bounds
     float retrieveNumber(int index) {
         if (index >= 0 && index < size) {
             return arr[index];
@@ -40,6 +44,7 @@ public:
         }
     }
 
+    //function to determine the highest value in the array by comparing eac value to one another
     float highestValue() {
         float highest = arr[0];
             for (int i = 0; i < size; ++i) {
@@ -50,6 +55,7 @@ public:
         return highest;
     }
 
+    //function to determine the lowest value in the array by comparing each value to one another
     float lowestValue() {
         float lowest = arr[0];
         for (int i = 0; i < size; ++i) {
@@ -60,6 +66,7 @@ public:
         return lowest;
     }
 
+    //function that gets the average of the array by adding each inputted number then dividing by the size of the array
     float average() {
         float sum = 0;
         for (int i = 0; i < size; ++i) {
@@ -72,11 +79,13 @@ public:
 int main() {
     int n;
 
+    //user inputs size of the array
     cout << "enter the size of the array" << endl;
     cin >> n;
 
     NumberArray numArray(n);
 
+    //user inputs all of the numbers held in  the array
     for (int i = 0; i < n; ++i) {
         float value;
         cout << "enter the value of number " << i + 1 << ": " << endl;
@@ -84,11 +93,13 @@ int main() {
         numArray.storeNumber(i, value);
     }
 
+    //displays the array
     cout << "\nHere is your inputted array: " << endl;
     for (int i = 0; i < n; ++i) {
         cout << "element " << i + 1 << ": " << numArray.retrieveNumber(i) << endl;
     }
 
+    //displays the highest and lowest values and the average with functions defined in the class
     cout << "\nThe highest value in the array is: " << numArray.highestValue() << endl;
 
     cout << "The lowest value in the array is: " << numArray.lowestValue() << endl;
