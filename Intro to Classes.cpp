@@ -24,7 +24,7 @@ public:
     }
 
     void storeNumber(int index, float value) {
-        if (index <= 0 && index < size) {
+        if (index >= 0 && index < size) {
             arr[index] = value;
         } else {
             cout << "out of bounds" << endl;
@@ -32,7 +32,7 @@ public:
     }
 
     float retrieveNumber(int index) {
-        if (index <= 0 && index < size) {
+        if (index >= 0 && index < size) {
             return arr[index];
         } else {
             cout << "out of bounds" << endl;
@@ -77,18 +77,25 @@ int main() {
 
     NumberArray numArray(n);
 
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < n; ++i) {
+        float value;
         cout << "enter the value of number " << i + 1 << ": " << endl;
         cin >> value;
         numArray.storeNumber(i, value);
     }
 
     cout << "\nHere is your inputted array: " << endl;
-    for (int i = 0; i < size; ++i) {
+    for (int i = 0; i < n; ++i) {
         cout << "element " << i + 1 << ": " << numArray.retrieveNumber(i) << endl;
     }
 
-    cout << "\nThe highest value in the array is: " << numArray.highestValue << endl;
+    cout << "\nThe highest value in the array is: " << numArray.highestValue() << endl;
+
+    cout << "The lowest value in the array is: " << numArray.lowestValue() << endl;
+
+    cout << "The average of the total values in the array is: " << numArray.average() << endl;
+
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
