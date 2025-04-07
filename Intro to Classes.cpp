@@ -86,11 +86,57 @@ public:
 	}
 };
 
+//test programs for classes based on given scenarios
 int main() {
+	// Scenario 1 A car is parked legally
+	cout << "Scenario 1: A Car Is Parked Legally\n";
+	ParkedCar car1("Toyota", "Camry", "Red", "XYZ123", 30); 
+	ParkingMeter meter1(40);  
+	PoliceOfficer officer1("John Doe", "5678");
+	officer1.inspectCar(car1, meter1);  
 
-	//scenario 1
+	// Scenario 2 A car is parked illegally 10 minutes
+	cout << "\nScenario 2: A Car Is Parked Illegally (Less Than an Hour Over Time)\n";
+	ParkedCar car2("Honda", "Accord", "Blue", "ABC987", 70);  
+	ParkingMeter meter2(60);  
+	PoliceOfficer officer2("Jane Smith", "1234");
+	officer2.inspectCar(car2, meter2); 
 
+	// Scenario 3 A car is parked illegally Multiple Hours
+	cout << "\nScenario 3: A Car Is Parked Illegally (Multiple Hours Over Time)\n";
+	ParkedCar car3("Ford", "Mustang", "Black", "LMN456", 190); 
+	ParkingMeter meter3(60);  
+	PoliceOfficer officer3("James Brown", "4321");
+	officer3.inspectCar(car3, meter3);  
 
+	// Scenario 4 Multiple Cars in a Parking Lot
+	cout << "\nScenario 4: Multiple Cars in a Parking Lot\n";
+
+	//different cars
+	vector<ParkedCar> cars = {
+		ParkedCar("Toyota", "Corolla", "White", "XYZ111", 30),
+		ParkedCar("Honda", "Civic", "Blue", "XYZ222", 120),
+		ParkedCar("Ford", "Fusion", "Red", "XYZ333", 150),
+		ParkedCar("Chevrolet", "Malibu", "Black", "XYZ444", 45)
+	};
+
+	//minutes parked
+	vector<ParkingMeter> meters = {
+		ParkingMeter(40), 
+		ParkingMeter(100), 
+		ParkingMeter(120), 
+		ParkingMeter(50)   
+	};
+
+	//multiple cars
+	PoliceOfficer officer4("Olivia Green", "9876");
+
+	for (size_t i = 0; i < cars.size(); ++i) {
+		cout << "\nInspecting car with license " << cars[i].getLicense() << ":\n";
+		officer4.inspectCar(cars[i], meters[i]);
+	}
+
+	return 0;
 }
 
 
