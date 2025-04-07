@@ -12,34 +12,52 @@ using namespace std;
 //defines the date class type
 class Date {
 private:
-        int month, day, year;
-        vector<string> months;
+    int month, day, year;
+    vector<string> months;
 
-        //makes sure the user input of the month and day is valid and is less than the maximum number of days for the given month
-        bool validateDate(int m, int d, int y) {
-            if (m < 1 || m > 12) return false; //month
-            if (d < 1 || d > getNumDays(m, y)) return false; //day
+    //makes sure the user input of the month and day is valid and is less than the maximum number of days for the given month
+    bool validateDate(int m, int d, int y) {
+        if (m < 1 || m > 12) return false; //month
+        if (d < 1 || d > getNumDays(m, y)) return false; //day
 
+        return true;
+    }
+
+    //sets the max number of days for each month and sets second value for feburary for leap years
+    int getNumDays(int m, int y) {
+        vector<int> numDays = { 31, 28, 31, 30, 31, 30, 31 , 31, 30, 31 , 30, 31 };
+
+        if (m == 2 && isLeapYear(y)) {
+            return 29;
+        }
+        return numDays[m - 1];
+    }
+
+    //determines if it is a leap year and if so allows for feurary to have up to 29 days
+    bool isLeapYear(int y) {
+        if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) {
             return true;
         }
+        return false;
+    }
 
-        //sets the max number of days for each month and sets second value for feburary for leap years
-        int getNumDays(int m, int y){
-            vector<int> numDays = {31, 28, 31, 30, 31, 30, 31 , 31, 30, 31 , 30, 31};
-
-            if (m == 2 && isLeapYear(y)) {
-                return 29;
+    void adjustDate() {
+        while (day < 1) {
+            if (month < 1) {
+                month = 12;
+                year--;
             }
-            return numDays[m - 1];
+            day = getNumDays(month, year);
         }
-
-        //determines if it is a leap year and if so allows for feurary to have up to 29 days
-        bool isLeapYear(int y) {
-            if ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0)) {
-                return true;
+        while (day > getNumDays(month, year)) {
+            day = 1;
+            month++;
+            if (month > 12) {
+                month = 1;
+                year++;
             }
-            return false;
         }
+    }
 
 public:
     Date(int m = 1, int d = 1, int y = 1900) {
@@ -47,38 +65,47 @@ public:
 
         setDate(m, d, y);
     }
-        //sets a default response if user inputs an invalid date
-        void setDate(int m, int d, int y) {
-            if (validateDate(m, d, y)) {
-                month = m;
-                day = d;
-                year = y;
-            }
-            else {
-                month = 1;
-                day = 1;
-                year = 1900;
-                cout << "invalid entry defaulting to date 1/1/1900" << endl;
-            }
+    //sets a default response if user inputs an invalid date
+    void setDate(int m, int d, int y) {
+        if (validateDate(m, d, y)) {
+            month = m;
+            day = d;
+            year = y;
         }
-        //accessor functions
-        int getMonth() { return month; }
-        int getDay() { return day; }
-        int getYear() { return year; }
+        else {
+            month = 1;
+            day = 1;
+            year = 1900;
+            cout << "invalid entry defaulting to date 1/1/1900" << endl;
+        }
+    }
+    //accessor functions
+    int getMonth() { return month; }
+    int getDay() { return day; }
+    int getYear() { return year; }
 
-        // Overloaded function to check if the year is a leap year
-        bool isLeapYear() {
-            return isLeapYear(year);
-        }
-   
-        // Overloaded function to get the last day of the month for any month and year
-        int lastDay() {
-            return getNumDays(month, year);
-        }
+    //overloaded stream extraction for inputting date
+    friend istream& operator>>(istream& is, Date& d) {
+        int m, d, y;
+        char ch;
+        is >> m >> d >> ch >> y;
+        d.setDate(m, d, y);
+        return is;
+    }
 
-        int lastDay(int m, int y) {
-            return lastDay(m, y);
-        }
+    // Overloaded function to check if the year is a leap year
+    bool isLeapYear() {
+        return isLeapYear(year);
+    }
+
+    // Overloaded function to get the last day of the month for any month and year
+    int lastDay() {
+        return getNumDays(month, year);
+    }
+
+    int lastDay(int m, int y) {
+        return lastDay(m, y);
+    }
     //uses user input to display date as m/d/yyyy
     void displayDate() {
         cout << month << "/" << day << "/" << year << endl;
