@@ -73,7 +73,7 @@ public:
    
         // Overloaded function to get the last day of the month for any month and year
         int lastDay() {
-            return lastDay(month, year);
+            return getNumDays(month, year);
         }
 
         int lastDay(int m, int y) {
