@@ -1,8 +1,8 @@
 //Thomas Cubsyead
-//3/17/25
+//4/7/25
 //Intro to Classes
 //Date
-//this program take the user input of a day month and year, stores it in a class, and displays it in three different ways
+//this program tests the functionality of overloaded functions to have an adaptable date display program withing the moldularity of a class
 
 #include <iostream>
 #include <vector>
