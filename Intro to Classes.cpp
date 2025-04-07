@@ -59,8 +59,37 @@ public:
 	}
 };
 
+//policeOfficer class for comparing the alotted time to the time used and issueing tickets
+class PoliceOfficer {
+private:
+	string officerName, badgeNumber;
+
+public:
+	PoliceOfficer(string name, string badge) {}
+
+	void inspectCar(ParkedCar car, ParkingMeter meter) {
+		int parkedTime = car.getTimeParked();
+		int purchasedTime = meter.getPurchasedTime();
+
+		if (parkedTime > purchasedTime) {
+			int violationTime = parkedTime - purchasedTime;
+			double fine = 25.0;
+				if (violationTime > 60) {
+					fine += (violationTime - 60) / 60 * 10;
+			}
+			ParkingTicket ticket(officerName, badgeNumber, car.getMake(), car.getModel(), car.getColor(), car.getLicense(), violationTime, fine);
+
+			ticket.displayTicket();
+		} else {
+			cout << "Parking time not exceeded with the car with license number " << car.getLicense() << endl;
+		}
+	}
+};
 
 int main() {
+
+	//scenario 1
+
 
 }
 
