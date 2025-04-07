@@ -5,12 +5,28 @@
 //This program compares the information provided from separate classes and determines wether the selected car needs a ticket or not
 
 #include <iostream>
+#include <vector>
 #include <string>
 using namespace std;
 
+//stores the information about the car
+class ParkedCar {
+private:
+	string make, model, color, license;
+	int timeParked;
 
+public:
+	ParkedCar(string m, string mo, string c, string l, int time)
+		: make(m), model(mo), color(c), license(l), timeParked(t) {}
 
+	int getTimeParked() const { return timeParked; }
+	string getLicense() const { return license; }
+	string getMake() const { return make; }
+	string getModel() const { return model; }
+	string getColor() const { return color; }
+};
 
+//stores the amount of minutes parked at current location
 
 
 
