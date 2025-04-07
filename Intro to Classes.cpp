@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cmath>
 using namespace std;
 
 //defines the date class type
@@ -84,6 +85,12 @@ public:
     int getDay() { return day; }
     int getYear() { return year; }
 
+    //overloaded insertion to display date
+    friend ostream& operator <<(ostream os, const Date& d) {
+        os << d.months[d.month - 1] << " " << d.day << ", " << d.year;
+        return os;
+    }
+
     //overloaded stream extraction for inputting date
     friend istream& operator>>(istream& is, Date& d) {
         int m, d, y;
@@ -92,6 +99,59 @@ public:
         d.setDate(m, d, y);
         return is;
     }
+
+    //overloaded prefix increment
+    Date& operator++() {
+        day++;
+        adjustDate();
+        return*this;
+    }
+
+    //overloaded postfix increment
+    Date operator++(int) {
+        Date temp = *this;
+        day++;
+        adjustDate();
+        return temp;
+    }
+
+    //overloaded prefix decrement
+    Date& operator--() {
+        day--;
+        adjustDate();
+        return *this;
+    }
+
+    //overloaded postfix decrement
+    Date operator--(int) {
+        Date temp = *this;
+        day--;
+        adjustDate();
+        return temp;
+    }
+
+    //overloaded subtraction operator
+    int operator-(const Date& other) {
+        int totalDays1 = totalDaysSinceEpoch();
+        int totalDays2 = other.totalDaysSinceEpoch();
+        return abs(totalDays1 - totalDays2);
+    }
+
+    //calculation of time since default time selection
+    int totalDaysSinceEpoch() const {
+        int days = year * 365 + day;
+        for (int m = 1; m < month; m++) {
+            days += getNumDays(m, year);
+        }
+        days += countLeapYear(year);
+        return days;
+    }
+
+    //count the number of year years up to thge selection of the user
+    int countLeapYear(int y) const {
+        return y / 4 - y / 100 + y / 400;
+    }
+
 
     // Overloaded function to check if the year is a leap year
     bool isLeapYear() {
